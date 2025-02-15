@@ -1,4 +1,4 @@
-# Park-the-car
+# Improve your driving skills
 Course project in python
 
 This is a game that improves players' driving skills by teaching them good coordination, quick reactions and good orientation. The application itself consists of three sub-games. When the code is executed, a window opens from which users can choose which of the three sub-games to play.
