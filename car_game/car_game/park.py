@@ -1,8 +1,7 @@
 import pygame
-#import sys
 import random
 
-#pygame.init()
+# pygame.init()
 
 DEFAULT_IMAGE_SIZE = (100, 80)
 
@@ -30,7 +29,8 @@ unlocked_levels = 1
 parking_spot = levels[current_level]
 
 # Други коли (препятствия)
-obstacle_images = [pygame.image.load("parked_car1.png").convert_alpha(), pygame.image.load("parked_car2.png").convert_alpha(), pygame.image.load("parked_car3.png").convert_alpha()]  # Добави своите снимки
+obstacle_images = [pygame.image.load("parked_car1.png").convert_alpha(), pygame.image.load(
+    "parked_car2.png").convert_alpha(), pygame.image.load("parked_car3.png").convert_alpha()]  # Добави своите снимки
 obstacles = [
     {"rect": pygame.Rect(400, 200, 80, 40), "image": pygame.transform.scale(obstacle_images[0], (120, 80))},
     {"rect": pygame.Rect(600, 400, 80, 40), "image": pygame.transform.scale(obstacle_images[1], (140, 80))},
@@ -40,14 +40,14 @@ obstacles = [
 level_obstacles = {
     0: [pygame.Rect(400, 200, 80, 40), pygame.Rect(600, 400, 80, 40)],
     1: [pygame.Rect(300, 150, 80, 40), pygame.Rect(700, 300, 80, 40)],
-    2: [pygame.Rect(500, 250, 80, 40), pygame.Rect(800, 450, 80, 40)],
-    3: [pygame.Rect(200, 300, 80, 40), pygame.Rect(600, 550, 80, 40), pygame.Rect(600, 400, 80, 40)],
-    4: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 300, 80, 40), pygame.Rect(600, 300, 80, 40)],
-    5: [pygame.Rect(400, 100, 80, 40), pygame.Rect(800, 400, 80, 40), pygame.Rect(600, 400, 80, 40)],
-    6: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40)],
-    7: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40)],
-    8: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(800, 300, 80, 40)],
-    9: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(800, 300, 80, 40)],
+    2: [pygame.Rect(500, 250, 80, 40), pygame.Rect(600, 450, 80, 40)],
+    3: [pygame.Rect(200, 200, 80, 40), pygame.Rect(600, 550, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(400, 100, 80, 40), pygame.Rect(300, 550, 80, 40)],
+    4: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 300, 80, 40), pygame.Rect(600, 300, 80, 40), pygame.Rect(750, 550, 80, 40), pygame.Rect(150, 200, 80, 40)],
+    5: [pygame.Rect(400, 100, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(600, 200, 80, 40), pygame.Rect(300, 200, 80, 40), pygame.Rect(750, 550, 80, 40)],
+    6: [pygame.Rect(400, 100, 80, 40), pygame.Rect(250, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(100, 550, 80, 40), pygame.Rect(750, 550, 80, 40)],
+    7: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(300, 200, 80, 40), pygame.Rect(500, 400, 80, 40)],
+    8: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(800, 300, 80, 40), pygame.Rect(450, 200, 80, 40), pygame.Rect(300, 200, 80, 40)],
+    9: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(800, 300, 80, 40), pygame.Rect(500, 550, 80, 40), pygame.Rect(300, 200, 80, 40)],
 }
 
 # obstacles = [pygame.Rect(400, 200, 80, 40), pygame.Rect(600, 400, 80, 40)]
@@ -68,7 +68,6 @@ yellow_bonus_image = pygame.transform.scale(yellow_bonus_image, (60, 25))
 orange_bonus_image = pygame.image.load("krenvirsh.png").convert_alpha()
 orange_bonus_image = pygame.transform.scale(orange_bonus_image, (50, 50))
 
-# Функция за показване на статистики
 font = pygame.font.Font(None, 36)
 
 
@@ -131,14 +130,15 @@ def show_level_selection():
 
 
 def check_overlap(rect, others):
-    """ Проверява дали даден правоъгълник (rect) се припокрива с някой от списъка (others). """
     return any(rect.colliderect(other) for other in others)
 
 
-def load_level(level):
+def load_level(level, testing=False):
+    if testing:
+        return
     global parking_spot, obstacles, yellow_bonus, orange_bonus
 
-    parking_spot = levels[level]  # Вземаме паркомястото за нивото
+    parking_spot = levels[level]
 
     # Списък с всички паркоместа (не само текущото)
     all_parking_spots = levels[:unlocked_levels]  # Всички отключени паркоместа
@@ -150,26 +150,26 @@ def load_level(level):
             obstacles.append({"rect": rect, "image": pygame.transform.scale(random.choice(obstacle_images), (160, 100))})
 
     # Генериране на бонуси, които не се припокриват с паркоместа или препятствия
-    yellow_bonus = [b for b in [pygame.Rect(250, 250, 40, 40), pygame.Rect(700, 150, 40, 40), pygame.Rect(550, 500, 40, 40)]
+    yellow_bonus = [b for b in [pygame.Rect(250, 250, 40, 40), pygame.Rect(700, 150, 40, 40), pygame.Rect(450, 500, 40, 40)]
                     if not check_overlap(b, all_parking_spots + [o["rect"] for o in obstacles])]
 
     orange_bonus = [b for b in [pygame.Rect(600, 300, 50, 50)]
                     if not check_overlap(b, all_parking_spots + [o["rect"] for o in obstacles] + yellow_bonus)]
 
 
-show_level_selection()
+#show_level_selection()
 
-
-#obstacles = generate_obstacles()
 
 previous_parking_spots = []
 
 
-def run_parking():
+def run_parking(main_menu_callback, testing=False):
+    if testing:
+        return
+
     global car, car_rect, lives, score, current_level, unlocked_levels, parking_spot, yellow_bonus, orange_bonus
 
     # Екран
-    WIDTH, HEIGHT = 1000, 700
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Park the car")
     background = pygame.image.load("background1.jpg").convert()
@@ -208,7 +208,7 @@ def run_parking():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 alive = False
-                # levels_menu()
+                main_menu_callback()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     global current_car_index  # Смяна на кола
@@ -264,11 +264,11 @@ def run_parking():
                 load_level(current_level)
             else:
                 show_level_selection()
-            yellow_bonus = [pygame.Rect(250, 250, 40, 40), pygame.Rect(700, 150, 40, 40), pygame.Rect(500, 500, 40, 40)]
+            yellow_bonus = [pygame.Rect(250, 250, 40, 40), pygame.Rect(700, 150, 40, 40), pygame.Rect(100, 500, 40, 40)]
             orange_bonus = [pygame.Rect(400, 300, 50, 50)]
 
         pygame.display.flip()
         clock.tick(60)
-
-    #pygame.quit()
-    #levels_menu()
+    main_menu_callback()
+    # pygame.quit()
+    # levels_menu()

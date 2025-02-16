@@ -1,24 +1,23 @@
 import pygame
 import sys
 
-# Initialize pygame
+
 pygame.init()
 
-# Screen setup
+# Екран
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Game Menu")
 
-# Colors
+# Цветове
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
-HOVER_COLOR = (173, 216, 230)  # Light Blue for hover effect
+HOVER_COLOR = (173, 216, 230)
 
-# Font setup
 font = pygame.font.Font(None, 50)
 
-# Menu options
+# Опции в менюто
 menu_items = [
     ("Park the car", "park", 200),
     ("Car Race", "race", 300),
@@ -36,7 +35,7 @@ def main_menu():
         screen.fill(BLACK)
         draw_text("Game Menu", WHITE, 300, 100)
 
-        mouse_x, mouse_y = pygame.mouse.get_pos()  # Get mouse position
+        mouse_x, mouse_y = pygame.mouse.get_pos()
 
         for i, (text, module, y) in enumerate(menu_items):
             # Highlight text if hovered
@@ -52,7 +51,7 @@ def main_menu():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     from park import run_parking
-                    run_parking()
+                    run_parking(main_menu)
                 elif event.key == pygame.K_2:
                     from race import run_racing
                     run_racing()
@@ -64,7 +63,7 @@ def main_menu():
                     if 280 <= mouse_x <= 520 and y <= mouse_y <= y + 50:
                         if module == "park":
                             from park import run_parking
-                            run_parking()
+                            run_parking(main_menu)
                         elif module == "race":
                             from race import run_racing
                             run_racing()

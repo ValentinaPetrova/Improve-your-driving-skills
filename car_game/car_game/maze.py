@@ -1,36 +1,34 @@
 import pygame
-import sys
 
 # Initialize Pygame
 #pygame.init()
 
-# Screen dimensions
+# Размери
 WIDTH, HEIGHT = 800, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Maze Game - Level 1")
 
-# Colors
+# Цветове
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
-# Tile size
 TILE_SIZE = 40
 
-# Fonts
 font = pygame.font.Font(None, 36)
 
-# Player starting position
+# Начална позиция
 player_pos = [1, 1]
 
-# Goal position
+# Позиции на сникърсите
 goal_pos = [[8, 8], [8, 8], [8, 8], [5, 6], [7, 7], [13, 12], [13, 1], [10, 10], [18, 18], [9, 11]]
 bonus_points = 0
 
-# Maze layouts for 10 levels
+# Нива
 levels = [
+    # Level 1
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -43,6 +41,7 @@ levels = [
         [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
+    # Level 2
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -55,6 +54,7 @@ levels = [
         [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
+    #Level 3
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -67,6 +67,7 @@ levels = [
         [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
+    # Level 4
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -76,7 +77,7 @@ levels = [
         [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
         [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     # Levels 5: 15x15 grid
@@ -97,7 +98,7 @@ levels = [
         [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    #level 6
+    # Level 6
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -115,7 +116,7 @@ levels = [
         [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
-    #Level 7
+    # Level 7
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -180,7 +181,7 @@ levels = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 
     ],
-    #Level 10
+    # Level 10
     [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -205,16 +206,8 @@ levels = [
     ],
 ]
 
-bonus_positions = {
-    6: [(3, 3), (6, 5)],
-    7: [(2, 4), (5, 7), (8, 3)],
-    8: [(1, 2), (4, 6), (7, 8), (10, 5)],
-    9: [(3, 1), (6, 4), (9, 7), (12, 6)]
-}
-
 unlocked_levels = [0]
 
-# Current level
 current_level = 0
 
 car_images = [
@@ -222,10 +215,11 @@ car_images = [
     pygame.image.load("car_for_parking2.png"),
     pygame.image.load("car_for_parking3.png")
 ]
+
 car_images = [pygame.transform.scale(car, (TILE_SIZE, TILE_SIZE)) for car in car_images]
 current_car_index = 0
 
-# Function to draw the maze
+
 def draw_maze(maze):
     for y, row in enumerate(maze):
         for x, tile in enumerate(row):
@@ -235,21 +229,17 @@ def draw_maze(maze):
                 pygame.draw.rect(screen, WHITE, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
 
-# Function to draw the player
 def draw_player():
     car = car_images[current_car_index]
     screen.blit(car, (player_pos[0] * TILE_SIZE, player_pos[1] * TILE_SIZE))
 
 
-# Function to draw the goal
 def draw_goal():
     goal = pygame.image.load("snikers.png")
     goal = pygame.transform.scale(goal, (TILE_SIZE, TILE_SIZE//2))
     screen.blit(goal, (goal_pos[current_level][0] * TILE_SIZE, goal_pos[current_level][1] * TILE_SIZE))
-    #pygame.draw.rect(screen, RED, (goal_pos[current_level][0] * TILE_SIZE, goal_pos[current_level][1] * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
 
-# Function to display the main menu
 def levels_menu():
     screen.fill(WHITE)
     title_text = font.render("Maze Game - Select Level", True, BLACK)
@@ -262,15 +252,12 @@ def levels_menu():
             pygame.draw.rect(screen, BLUE, button_rect)
             screen.blit(level_text, (button_rect.x + 10, button_rect.y + 10))
             level_buttons.append((button_rect, i))
-        """else:
-            level_text = font.render(f"Level {i + 1} (Locked)", True, GRAY)
-            button_color = GRAY"""
 
     pygame.display.flip()
     return level_buttons
 
+
 def get_the_snickers():
-# Main game loop
     global current_car_index, player_pos, current_level
     running = True
     in_menu = True
@@ -295,7 +282,7 @@ def get_the_snickers():
                 if event.type == pygame.QUIT:
                     running = False
 
-        # Handle player movement
+        # Движения
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP]:
                 new_pos = [player_pos[0], player_pos[1] - 1]
@@ -316,30 +303,22 @@ def get_the_snickers():
             if keys[pygame.K_SPACE]:
                 current_car_index = (current_car_index + 1) % len(car_images)
 
-        # Check if player reached the goal
+            # Проверка дали сме достигнали целта
             if player_pos == goal_pos[current_level]:
                 print(f"You Win Level {current_level + 1}!")
                 if current_level + 1 < len(levels) and current_level + 1 not in unlocked_levels:
                     unlocked_levels.append(current_level + 1)  # Unlock the next level
                 in_menu = True
-                player_pos = [1, 1]  # Reset player position
-           # goal_pos = [8, 8]
+                player_pos = [1, 1]  # Обнови
 
-            """if current_level in bonus_positions and player_pos in bonus_positions[current_level]:
-                "bonus_points += 10
-                bonus_positions[current_level].remove(player_pos)"""
-            # Draw everything
             screen.fill(WHITE)
             draw_maze(levels[current_level])
             draw_player()
             draw_goal()
-
-        # Update the display
             pygame.display.flip()
 
-    # Cap the frame rate
         pygame.time.Clock().tick(30)
 
 # Quit Pygame
-    pygame.quit()
-    sys.exit()
+    #pygame.quit()
+    #sys.exit()

@@ -3,9 +3,9 @@ import pygame
 import os
 from pygame.locals import *
 from unittest.mock import patch
-from car_game.all_game import main_menu
+from all_game import main_menu
 
-from car_game.park import (run_parking, parking_spot, check_overlap, load_level, levels, car_images, car_rect, level_obstacles,
+from park import (run_parking, parking_spot, check_overlap, load_level, levels, car_images, car_rect, level_obstacles,
                   yellow_bonus_levels, yellow_bonus, orange_bonus_levels, orange_bonus, obstacles)
 
 
@@ -124,7 +124,7 @@ class TestParkTheCar(unittest.TestCase):
         self.assertGreater(score, 0, "Score should increase after collecting a bonus")
 
 
-from car_game.maze import get_the_snickers, levels, player_pos, goal_pos, current_level, unlocked_levels
+from maze import get_the_snickers, levels, player_pos, goal_pos, current_level, unlocked_levels
 
 
 class TestMazeGame(unittest.TestCase):
@@ -195,14 +195,14 @@ class TestMazeGame(unittest.TestCase):
         self.assertEqual(current_car_index, (initial_car_index + 1) % len(car_images))
 
 
-from car_game.race import (terminate, wait_for_player_to_press_key, player_has_hit_baddie, draw_text, run_racing,
+from race import (terminate, wait_for_player_to_press_key, player_has_hit_baddie, draw_text, run_racing,
                   WINDOWWIDTH, WINDOWHEIGHT)
 
 
 class TestCarRacingGame(unittest.TestCase):
 
     def setUp(self):
-        # Initialize Pygame for testing
+        """Initialize Pygame for testing"""
         pygame.init()
         self.windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
         pygame.display.set_caption('Car Race Test')
@@ -213,18 +213,17 @@ class TestCarRacingGame(unittest.TestCase):
         pygame.quit()
 
     def test_terminate(self):
-        # Test the terminate function
+        """Test the terminate function"""
         with self.assertRaises(SystemExit):
             terminate()
 
     def test_waitForPlayerToPressKey(self):
-        # Test the wait_for_player_to_press_key function
-        # Simulate a key press event
+        """Test the wait_for_player_to_press_key function"""
         pygame.event.post(pygame.event.Event(KEYDOWN, key=K_SPACE))
         wait_for_player_to_press_key()  # Should not raise an exception
 
     def test_playerHasHitBaddie(self):
-        # Test the player_has_hit_baddie function
+        """Test the player_has_hit_baddie function"""
         player_rect = pygame.Rect(100, 100, 50, 50)
         baddies = [
             {'rect': pygame.Rect(100, 100, 50, 50), 'speed': 5, 'surface': None},
@@ -236,48 +235,46 @@ class TestCarRacingGame(unittest.TestCase):
         self.assertFalse(player_has_hit_baddie(player_rect, baddies))
 
     def test_drawText(self):
-        # Test the draw_text function
+        """Test the draw_text function"""
         text = "Test Text"
         x, y = 100, 100
         draw_text(text, self.font, self.windowSurface, x, y)
-        # Verify that the text was drawn (this is more of a visual test)
-        # For automated testing, you might need to capture the screen and analyze the pixels.
 
     def test_run_racing(self):
-        # Test the run_racing function
-        # Simulate key presses and game logic
+        """Test the run_racing function"""
+        """key presses"""
         pygame.event.post(pygame.event.Event(KEYDOWN, key=K_SPACE))  # Start the game
         run_racing()
 
-        # Simulate player movement
+        """player movement"""
         pygame.event.post(pygame.event.Event(KEYDOWN, key=K_LEFT))
         pygame.event.post(pygame.event.Event(KEYUP, key=K_LEFT))
         pygame.event.post(pygame.event.Event(KEYDOWN, key=K_RIGHT))
         pygame.event.post(pygame.event.Event(KEYUP, key=K_RIGHT))
 
-        # Simulate collision
+        """collision"""
         player_rect = pygame.Rect(100, 100, 50, 50)
         baddies = [{'rect': pygame.Rect(100, 100, 50, 50), 'speed': 5, 'surface': None}]
         self.assertTrue(player_has_hit_baddie(player_rect, baddies))
 
-        # Simulate game over
+        """game over"""
         global count
         count = 0
-        run_racing()  # Should display "Game Over" screen
+        run_racing()
 
     def test_score_and_top_score(self):
         # Test score and top score functionality
-        if not os.path.exists("../data_save.dat"):
-            with open("../data_save.dat", 'w') as f:
+        if not os.path.exists("data_save.dat"):
+            with open("data_save.dat", 'w') as f:
                 f.write("0")
 
-        with open("../data_save.dat", 'r') as v:
+        with open("data_save.dat", 'r') as v:
             top_score = int(v.readline())
 
         # Simulate a high score
         score = 1000
         if score > top_score:
-            with open("../data_save.dat", 'w') as g:
+            with open("data_save.dat", 'w') as g:
                 g.write(str(score))
             top_score = score
 
