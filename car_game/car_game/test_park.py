@@ -135,9 +135,10 @@ class TestParkTheCar(unittest.TestCase):
         global score, car_rect
 
         car_rect.x, car_rect.y = yellow_bonus[0].x, yellow_bonus[0].y
-        run_parking(MagicMock(), testing=True)
+        run_parking(MagicMock(), testing=False)
         self.assertGreater(score, 0, "Score should increase after collecting a bonus")
 
 
 if __name__ == "__main__":
     unittest.main()
+    
