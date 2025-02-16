@@ -17,6 +17,7 @@ car_images = ["car_for_parking.png", "car_for_parking2.png", "car_for_parking3.p
 current_car_index = 0
 car = pygame.image.load(car_images[current_car_index]).convert_alpha()
 car = pygame.transform.scale(car, (car.get_width()//5, car.get_height()//5))
+#car_border = pygame.Rect(WIDTH // 2, HEIGHT - 100, (car.get_width()//5, car.get_height()//5))
 car_rect = car.get_rect(center=(WIDTH // 2, HEIGHT - 100))
 
 # Нива и паркинг места
@@ -31,26 +32,20 @@ parking_spot = levels[current_level]
 # Други коли (препятствия)
 obstacle_images = [pygame.image.load("parked_car1.png").convert_alpha(), pygame.image.load(
     "parked_car2.png").convert_alpha(), pygame.image.load("parked_car3.png").convert_alpha()]
-obstacles = [
-    {"rect": pygame.Rect(400, 200, 80, 40), "image": pygame.transform.scale(obstacle_images[0], (120, 80))},
-    {"rect": pygame.Rect(600, 400, 80, 40), "image": pygame.transform.scale(obstacle_images[1], (140, 80))},
-    {"rect": pygame.Rect(800, 400, 80, 40), "image": pygame.transform.scale(obstacle_images[2], (120, 160))}
-]
 
 level_obstacles = {
-    0: [pygame.Rect(400, 200, 80, 40), pygame.Rect(600, 400, 80, 40)],
-    1: [pygame.Rect(300, 150, 80, 40), pygame.Rect(700, 300, 80, 40)],
-    2: [pygame.Rect(500, 250, 80, 40), pygame.Rect(600, 450, 80, 40)],
-    3: [pygame.Rect(200, 200, 80, 40), pygame.Rect(600, 550, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(400, 100, 80, 40), pygame.Rect(300, 550, 80, 40)],
-    4: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 300, 80, 40), pygame.Rect(600, 300, 80, 40), pygame.Rect(750, 550, 80, 40), pygame.Rect(150, 200, 80, 40)],
-    5: [pygame.Rect(400, 100, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(600, 200, 80, 40), pygame.Rect(300, 200, 80, 40), pygame.Rect(750, 550, 80, 40)],
-    6: [pygame.Rect(400, 100, 80, 40), pygame.Rect(250, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(100, 550, 80, 40), pygame.Rect(750, 550, 80, 40)],
-    7: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(300, 200, 80, 40), pygame.Rect(500, 400, 80, 40)],
-    8: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(800, 300, 80, 40), pygame.Rect(450, 200, 80, 40), pygame.Rect(300, 200, 80, 40)],
-    9: [pygame.Rect(400, 100, 80, 40), pygame.Rect(750, 400, 80, 40), pygame.Rect(600, 400, 80, 40), pygame.Rect(800, 300, 80, 40), pygame.Rect(500, 550, 80, 40), pygame.Rect(300, 200, 80, 40)],
+    0: [pygame.Rect(400, 200, 160, 100), pygame.Rect(600, 400, 160, 100)],
+    1: [pygame.Rect(300, 150, 160, 100), pygame.Rect(700, 300, 160, 100)],
+    2: [pygame.Rect(500, 250, 160, 100), pygame.Rect(600, 450, 160, 100)],
+    3: [pygame.Rect(200, 200, 160, 100), pygame.Rect(600, 550, 160, 100), pygame.Rect(600, 400, 160, 100), pygame.Rect(400, 100, 160, 100), pygame.Rect(300, 550, 160, 100)],
+    4: [pygame.Rect(400, 100, 160, 100), pygame.Rect(750, 300, 160, 100), pygame.Rect(600, 300, 160, 100), pygame.Rect(750, 550, 160, 100), pygame.Rect(150, 200, 160, 100)],
+    5: [pygame.Rect(400, 100, 160, 100), pygame.Rect(600, 400, 160, 100), pygame.Rect(600, 200, 160, 100), pygame.Rect(300, 200, 160, 100), pygame.Rect(750, 550, 160, 100)],
+    6: [pygame.Rect(400, 100, 160, 100), pygame.Rect(250, 400, 160, 100), pygame.Rect(600, 400, 160, 100), pygame.Rect(100, 550, 160, 100), pygame.Rect(750, 550, 160, 100)],
+    7: [pygame.Rect(400, 100, 160, 100), pygame.Rect(750, 400, 160, 100), pygame.Rect(600, 400, 160, 100), pygame.Rect(300, 200, 160, 100), pygame.Rect(500, 400, 160, 100)],
+    8: [pygame.Rect(400, 100, 160, 100), pygame.Rect(750, 400, 160, 100), pygame.Rect(600, 400, 160, 100), pygame.Rect(800, 300, 160, 100), pygame.Rect(450, 200, 160, 100), pygame.Rect(300, 200, 160, 100)],
+    9: [pygame.Rect(400, 100, 160, 100), pygame.Rect(750, 400, 160, 100), pygame.Rect(600, 400, 160, 100), pygame.Rect(800, 300, 160, 100), pygame.Rect(500, 550, 160, 100), pygame.Rect(300, 200, 160, 100)],
 }
 
-# obstacles = [pygame.Rect(400, 200, 80, 40), pygame.Rect(600, 400, 80, 40)]
 
 # Животи
 lives = 3
@@ -185,14 +180,15 @@ def run_parking(main_menu_callback, testing=False):
         draw_stats()
 
         for obstacle in obstacles:
-            screen.blit(obstacle["image"], obstacle["rect"].topleft)
+            image_rect = obstacle["image"].get_rect(center=obstacle["rect"].center)
+            screen.blit(obstacle["image"], image_rect.topleft)
 
         if current_level in yellow_bonus_levels:
             for bonus in yellow_bonus:
-                screen.blit(yellow_bonus_image, bonus.topleft)
+                screen.blit(yellow_bonus_image, bonus.center)
         if current_level in orange_bonus_levels:
             for bonus in orange_bonus:
-                screen.blit(orange_bonus_image, bonus.topleft)
+                screen.blit(orange_bonus_image, bonus.center)
 
         # Въртим и рисуваме колата
         rotated_car = pygame.transform.rotate(car, angle)

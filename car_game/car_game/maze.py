@@ -1,6 +1,5 @@
 import pygame
 
-# Initialize Pygame
 #pygame.init()
 
 # Размери
@@ -319,6 +318,5 @@ def get_the_snickers():
 
         pygame.time.Clock().tick(30)
 
-# Quit Pygame
     #pygame.quit()
     #sys.exit()
